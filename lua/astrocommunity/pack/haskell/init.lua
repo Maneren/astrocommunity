@@ -66,7 +66,7 @@ return {
   {
     "nvim-neotest/neotest",
     optional = true,
-    dependencies = { "mrcjkb/neotest-haskell", config = function() end },
+    dependencies = { "mrcjkb/neotest-haskell", opts = {} },
     opts = function(_, opts)
       if not opts.adapters then opts.adapters = {} end
       table.insert(opts.adapters, require "neotest-haskell"(require("astrocore").plugin_opts "neotest-haskell"))
@@ -88,11 +88,15 @@ return {
       },
     },
     version = "^4",
-    init = function()
+    config = function()
       local astrolsp_avail, astrolsp = pcall(require, "astrolsp")
-      vim.g.haskell_tools = require("astrocore").extend_tbl({
+      local config = vim.g.haskell_tools
+
+      if type(vim.g.haskell_tools) == "function" then config = config() end
+
+      vim.g.haskell_tools = require("astrocore").extend_tbl(config, {
         hls = astrolsp_avail and { capabilities = astrolsp.config.capabilities, on_attach = astrolsp.on_attach } or {},
-      }, vim.g.haskell_tools)
+      })
     end,
   },
 }
