@@ -31,7 +31,7 @@ return {
         opts = {
           handlers = {
             csharp_ls = function(server, opts)
-              require("lspconfig")[server].setup(opts)
+              vim.lsp.config(server, opts or {})
               require("csharpls_extended").buf_read_cmd_bind()
             end,
           },
