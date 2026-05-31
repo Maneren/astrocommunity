@@ -61,38 +61,22 @@ return {
       },
     },
   },
-  {
-    "AstroNvim/astrolsp",
-    opts = {
-      config = {
-        sqls = {
-          on_attach = function(client)
-            -- Disable formatting due to bugs: https://github.com/sqls-server/sqls/issues/149
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          end,
-        },
-      },
-    },
-  },
+  -- {
+  --   "AstroNvim/astrolsp",
+  --   opts = {
+  --     config = {
+  --       sqls = {
+  --         on_attach = function(client)
+  --           -- Disable formatting due to bugs: https://github.com/sqls-server/sqls/issues/149
+  --           client.server_capabilities.documentFormattingProvider = false
+  --           client.server_capabilities.documentRangeFormattingProvider = false
+  --         end,
+  --       },
+  --     },
+  --   },
+  -- },
   {
     "nanotee/sqls.nvim",
-    dependencies = {
-      "AstroNvim/astrocore",
-      opts = {
-        autocmds = {
-          sqls_attach = {
-            {
-              event = "LspAttach",
-              desc = "Load sqls.nvim with sqls",
-              callback = function(args)
-                local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-                if client.name == "sqls" then require("sqls").on_attach(client, args.buf) end
-              end,
-            },
-          },
-        },
-      },
-    },
+    filetypes = "sql",
   },
 }
